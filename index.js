@@ -1,5 +1,5 @@
 // Map and map tile layer
-var map = L.map("map").setView([51.505, -0.09], 10);
+var map = L.map("map").setView([51.505, -0.09], 1);
 
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
@@ -13,32 +13,70 @@ let flightOriginLatLong = [];
 let flightDestinationLatLong = [];
 let flightPolyLine = [];
 let pLine;
+let mapMarkerGroup = L.layerGroup().addTo(map);
 
-fetch("https://api.adsbdb.com/v0/callsign/random")
-  .then((response) => response.json())
-  .then((response) => {
-    randomFlight = response;
-    flightOriginLatLong = [
-      randomFlight.response.flightroute.origin.latitude,
-      randomFlight.response.flightroute.origin.longitude,
-    ];
-    flightDestinationLatLong = [
-      randomFlight.response.flightroute.destination.latitude,
-      randomFlight.response.flightroute.destination.longitude,
-    ];
-    flightPolyLine = [flightOriginLatLong, flightDestinationLatLong];
-    console.log(randomFlight);
-    console.log(flightOriginLatLong);
-    console.log(flightDestinationLatLong);
+const randomize = () => {
+  mapMarkerGroup.clearLayers();
 
-    (L.marker(flightOriginLatLong).addTo(map),
-      L.marker(flightDestinationLatLong).addTo(map),
-      (pLine = L.polyline(flightPolyLine).addTo(map)),
-      map.flyToBounds(pLine));
+  fetch("https://api.adsbdb.com/v0/callsign/random")
+    .then((response) => response.json())
+    .then((response) => {
+      randomFlight = response;
+      flightOriginLatLong = [
+        randomFlight.response.flightroute.origin.latitude,
+        randomFlight.response.flightroute.origin.longitude,
+      ];
+      flightDestinationLatLong = [
+        randomFlight.response.flightroute.destination.latitude,
+        randomFlight.response.flightroute.destination.longitude,
+      ];
+      flightPolyLine = [flightOriginLatLong, flightDestinationLatLong];
+      console.log(randomFlight);
+      console.log(flightOriginLatLong);
+      console.log(flightDestinationLatLong);
 
-    renderFlightInformation(randomFlight);
-  })
-  .catch((error) => error);
+      (L.marker(flightOriginLatLong).addTo(mapMarkerGroup),
+        L.marker(flightDestinationLatLong).addTo(mapMarkerGroup),
+        (pLine = L.polyline(flightPolyLine).addTo(mapMarkerGroup)),
+        map.flyToBounds(pLine));
+
+      renderFlightInformation(randomFlight);
+    })
+    .catch((error) => error);
+};
+
+const search = () => {
+  mapMarkerGroup.clearLayers();
+
+  let searchBarContents = document.getElementById("search").value;
+
+  fetch(`https://api.adsbdb.com/v0/callsign/${searchBarContents}`)
+    .then()
+    .then((response) => response.json())
+    .then((response) => {
+      randomFlight = response;
+      flightOriginLatLong = [
+        randomFlight.response.flightroute.origin.latitude,
+        randomFlight.response.flightroute.origin.longitude,
+      ];
+      flightDestinationLatLong = [
+        randomFlight.response.flightroute.destination.latitude,
+        randomFlight.response.flightroute.destination.longitude,
+      ];
+      flightPolyLine = [flightOriginLatLong, flightDestinationLatLong];
+      console.log(randomFlight);
+      console.log(flightOriginLatLong);
+      console.log(flightDestinationLatLong);
+
+      (L.marker(flightOriginLatLong).addTo(mapMarkerGroup),
+        L.marker(flightDestinationLatLong).addTo(mapMarkerGroup),
+        (pLine = L.polyline(flightPolyLine).addTo(mapMarkerGroup)),
+        map.flyToBounds(pLine));
+
+      renderFlightInformation(randomFlight);
+    })
+    .catch((error) => error);
+};
 
 const renderFlightInformation = (flightInformation) => {
   const updateText = (element, text) => {
@@ -115,3 +153,5 @@ const renderFlightInformation = (flightInformation) => {
   updateText(destinationCardObject.destinationAirportLat, destData.latitude);
   updateText(destinationCardObject.destinationAirportLon, destData.longitude);
 };
+
+randomize();

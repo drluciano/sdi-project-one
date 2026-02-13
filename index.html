@@ -11,14 +11,24 @@
   <body>
     <div id="map"></div>
     <div id="flightInformation">
-      <h1>Flight Information for Callsign <span id="callsign"></span></h1>
+      <div id="header">
+        <h1>Flight Information for Callsign <span id="callsign"></span></h1>
+        <button id="randomizeButton" onclick="randomize()">Randomize!</button>
+      </div>
       <div id="airlineInformation">
         <h3>Airline: <span id="airline"></span></h3>
         <h3>Country of Origin: <span id="countryOfOrigin"></span></h3>
       </div>
+      <div id="searchDiv">
+        <label for="search">Search (Callsign): </label>
+        <input type="text" name="search" id="search" />
+        <button id="searchButton" type="submit" onclick="search()">
+          Search
+        </button>
+      </div>
       <div id="cards">
         <div class="card">
-          <h3 id="originInformationHeading">Origin Information</h3>
+          <h3 class="cardHeading">Origin Information</h3>
           <h4>
             Country: <span id="originCountryIso"></span> |
             <span id="originCountry"></span>
@@ -34,7 +44,7 @@
           </h4>
         </div>
         <div class="card">
-          <h3 id="destinationInformationHeading">Destination Information</h3>
+          <h3 class="cardHeading">Destination Information</h3>
           <h4>
             Country: <span id="destinationCountryIso"></span> |
             <span id="destinationCountry"></span>

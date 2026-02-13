@@ -10,9 +10,36 @@ body {
   height: 45vh;
 }
 
+#header {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  height: 4rem;
+}
+
+#randomizeButton {
+  height: 3rem;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #3d4f7b 0%, #3c72dd 100%);
+  font-weight: bold;
+  color: white;
+  transition: background-color 1s ease;
+  transition: scale 1s ease;
+}
+
+#randomizeButton:hover {
+  background: linear-gradient(90deg, #5a73b2 0%, #5b90fb 100%);
+  scale: 1.1;
+  cursor: pointer;
+}
+
 #flightInformation {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 }
 
 #cards {
@@ -23,6 +50,35 @@ body {
 
 .card {
   border: solid 1px;
+  border-radius: 8px;
   padding: 1rem;
   width: 50%;
+  background-color: rgb(20, 19, 19);
+  filter: drop-shadow(0 0 4px rgb(88, 88, 200));
+}
+
+#callsign {
+  border-radius: 20px;
+  background-color: rgb(88, 88, 200);
+  padding: 8px;
+}
+
+#searchDiv {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+#search {
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  transition: scale 0.5s ease;
+}
+
+#search:hover {
+  scale: 1.05;
+}
+
+#searchButton {
 }
