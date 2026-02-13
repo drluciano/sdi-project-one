@@ -2,30 +2,42 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Title</title>
+    <title>SkyWatch</title>
     <script defer src="./index.js"></script>
     <link rel="stylesheet" href="./global.css" />
     <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css" />
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
     <script src="node_modules/leaflet/dist/leaflet.js"></script>
   </head>
   <body>
+    <div id="loader" hidden>
+      <div class="loader"></div>
+      <p>Loading Flight Data...</p>
+    </div>
     <div id="map"></div>
     <div id="flightInformation">
-      <div id="header">
-        <h1>Flight Information for Callsign <span id="callsign"></span></h1>
-        <button id="randomizeButton" onclick="randomize()">Randomize!</button>
+      <div id="headerContainer">
+        <div id="searchDiv">
+          <label for="search">Search (Callsign): </label>
+          <input type="text" name="search" id="search" />
+          <button id="searchButton" type="submit" onclick="search()">
+            Search
+          </button>
+        </div>
+        <div id="headerAirline">
+          <div id="header">
+            <h2>Flight Information for Callsign <span id="callsign"></span></h2>
+            <button id="randomizeButton" onclick="randomize()">
+              Randomize!
+            </button>
+          </div>
+          <div id="airlineInformation">
+            <h3>Airline: <span id="airline"></span></h3>
+            <h3>Country of Origin: <span id="countryOfOrigin"></span></h3>
+          </div>
+        </div>
       </div>
-      <div id="airlineInformation">
-        <h3>Airline: <span id="airline"></span></h3>
-        <h3>Country of Origin: <span id="countryOfOrigin"></span></h3>
-      </div>
-      <div id="searchDiv">
-        <label for="search">Search (Callsign): </label>
-        <input type="text" name="search" id="search" />
-        <button id="searchButton" type="submit" onclick="search()">
-          Search
-        </button>
-      </div>
+
       <div id="cards">
         <div class="card">
           <h3 class="cardHeading">Origin Information</h3>

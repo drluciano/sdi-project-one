@@ -17,7 +17,7 @@ let mapMarkerGroup = L.layerGroup().addTo(map);
 
 const randomize = () => {
   mapMarkerGroup.clearLayers();
-
+  loader.removeAttribute("hidden");
   fetch("https://api.adsbdb.com/v0/callsign/random")
     .then((response) => response.json())
     .then((response) => {
@@ -41,17 +41,18 @@ const randomize = () => {
         map.flyToBounds(pLine));
 
       renderFlightInformation(randomFlight);
+      loader.setAttribute("hidden", "");
     })
     .catch((error) => error);
 };
 
 const search = () => {
+  loader.removeAttribute("hidden");
   mapMarkerGroup.clearLayers();
 
   let searchBarContents = document.getElementById("search").value;
 
   fetch(`https://api.adsbdb.com/v0/callsign/${searchBarContents}`)
-    .then()
     .then((response) => response.json())
     .then((response) => {
       randomFlight = response;
@@ -74,6 +75,7 @@ const search = () => {
         map.flyToBounds(pLine));
 
       renderFlightInformation(randomFlight);
+      loader.setAttribute("hidden", "");
     })
     .catch((error) => error);
 };
