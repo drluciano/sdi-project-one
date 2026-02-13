@@ -1,0 +1,26 @@
+{
+  "name": "sdi-project-one",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/drluciano/sdi-project-one#readme",
+  "bugs": {
+    "url": "https://github.com/drluciano/sdi-project-one/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drluciano/sdi-project-one.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "live-server"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "live-server": "^1.2.2"
+  },
+  "devDependencies": {}
+}

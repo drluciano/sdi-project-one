@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    <script defer src="./index.js"></script>
+    <link rel="stylesheet" href="./global.css" />
+    <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css" />
+    <script src="node_modules/leaflet/dist/leaflet.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id="flightInformation">
+      <h1>Flight Information for Callsign <span id="callsign"></span></h1>
+      <div id="airlineInformation">
+        <h3>Airline: <span id="airline"></span></h3>
+        <h3>Country of Origin: <span id="countryOfOrigin"></span></h3>
+      </div>
+      <div id="cards">
+        <div class="card">
+          <h3 id="originInformationHeading">Origin Information</h3>
+          <h4>
+            Country: <span id="originCountryIso"></span> |
+            <span id="originCountry"></span>
+          </h4>
+          <h4>Municipality: <span id="originMunicipality"></span></h4>
+          <h4>Airport: <span id="originAirport"></span></h4>
+          <h4>
+            Airport Elevation: <span id="originAirportElevation"></span> ft.
+          </h4>
+          <h4>
+            Airport Coordinates: <span id="originAirportLat"></span>,
+            <span id="originAirportLon"></span>
+          </h4>
+        </div>
+        <div class="card">
+          <h3 id="destinationInformationHeading">Destination Information</h3>
+          <h4>
+            Country: <span id="destinationCountryIso"></span> |
+            <span id="destinationCountry"></span>
+          </h4>
+          <h4>Municipality: <span id="destinationMunicipality"></span></h4>
+          <h4>Airport: <span id="destinationAirport"></span></h4>
+          <h4>
+            Airport Elevation:
+            <span id="destinationAirportElevation"></span> ft.
+          </h4>
+          <h4>
+            Airport Coordinates: <span id="destinationAirportLat"></span>,
+            <span id="destinationAirportLon"></span>
+          </h4>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

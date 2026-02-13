@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com");
+
+body {
+  font-family: "Roboto", sans-serif;
+  color: white;
+  background-color: rgb(20, 19, 19);
+}
+
+#map {
+  height: 45vh;
+}
+
+#flightInformation {
+  display: flex;
+  flex-direction: column;
+}
+
+#cards {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.card {
+  border: solid 1px;
+  padding: 1rem;
+  width: 50%;
+}
