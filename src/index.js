@@ -1,3 +1,5 @@
+import {fetchPhotos} from './features/imageSearch.js';
+
 // Map and map tile layer
 var map = L.map("map").setView([51.505, -0.09], 1);
 
@@ -41,8 +43,16 @@ const randomize = () => {
         map.flyToBounds(pLine));
 
       renderFlightInformation(randomFlight);
-      loader.setAttribute("hidden", "");
+
+        Promise.all([
+            fetchPhotos(randomFlight.response.flightroute.origin.municipality, "origin"),
+            fetchPhotos(randomFlight.response.flightroute.destination.municipality, "destination")
+        ]).then(() => {
+            // Now that images are DONE, hide the loader
+            loader.setAttribute("hidden", "");
+        });
     })
+
     .catch((error) => error);
 };
 
@@ -155,5 +165,8 @@ const renderFlightInformation = (flightInformation) => {
   updateText(destinationCardObject.destinationAirportLat, destData.latitude);
   updateText(destinationCardObject.destinationAirportLon, destData.longitude);
 };
+
+document.getElementById("randomizeButton").addEventListener("click", randomize);
+document.getElementById("searchButton").addEventListener("click", search);
 
 randomize();

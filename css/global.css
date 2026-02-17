@@ -19,6 +19,11 @@ span {
   z-index: 50;
 }
 
+#logo{
+  max-width: 500px;
+  align-self: center;
+}
+
 #headerContainer {
   display: flex;
   flex-direction: column;
@@ -31,14 +36,11 @@ span {
   align-items: center;
   justify-content: space-between;
   height: 4rem;
+  text-transform: uppercase;
 }
 
 #headerAirline {
-  border: solid 1px;
-  border-radius: 8px;
   padding: 1rem;
-  background-color: rgb(20, 19, 19);
-  filter: drop-shadow(0 0 4px rgb(88, 88, 200));
 }
 
 #randomizeButton {
@@ -49,7 +51,6 @@ span {
   background: linear-gradient(90deg, #3d4f7b 0%, #3c72dd 100%);
   font-weight: bold;
   color: white;
-  transition: background-color 1s ease;
   transition: scale 1s ease;
 }
 
@@ -77,12 +78,29 @@ span {
 }
 
 .card {
-  border: solid 1px;
   border-radius: 8px;
   padding: 1rem;
   width: 50%;
-  background-color: rgb(20, 19, 19);
-  filter: drop-shadow(0 0 4px rgb(88, 88, 200));
+}
+
+#originCard, #destinationCard {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+}
+
+.cardHeading{
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.cardSubHeading{
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 4px;
 }
 
 #callsign {
@@ -94,30 +112,43 @@ span {
 #searchDiv {
   display: flex;
   flex-direction: row;
+  justify-content: end;
+  align-items: center;
   width: 100%;
-  gap: 1rem;
+  gap: .5rem;
+}
+
+hr{
+  border: 0;
+  height: 2px;
+  background-image: radial-gradient(
+          circle at center,
+          #ffffff 0%,
+          rgba(255, 255, 255, 0) 70%
+  );
 }
 
 #search {
-  width: 100%;
+  width: 25%;
+  height: 32px;
   border: none;
   border-radius: 8px;
+
   transition: scale 0.5s ease;
 }
 
 #search:hover {
-  scale: 1.05;
+  scale: 1.01;
 }
 
 #searchButton {
-  height: 3rem;
+  height: 36px;
   padding: 5px 10px;
   border: none;
   border-radius: 8px;
   background: linear-gradient(90deg, #3d4f7b 0%, #3c72dd 100%);
   font-weight: bold;
   color: white;
-  transition: background-color 1s ease;
   transition: scale 1s ease;
 }
 
@@ -168,4 +199,13 @@ span {
   to {
     transform: rotate(0.5turn);
   }
+}
+
+
+.contentBox{
+  padding: 10px;
+  backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  height: 90%;
 }
