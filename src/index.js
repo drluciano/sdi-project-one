@@ -1,172 +1,59 @@
-import {fetchPhotos} from './features/imageSearch.js';
+import {getFlightByCallsign, getRandomFlight} from './api/api.js';
+import {fetchPhotos} from './api/api.js';
+import {renderFlightInformation, toggleLoader} from './features/renderFlightInformation.js';
+import {updateMapMarkers} from './features/map.js';
+import {checkIfFavorite, favoriteCallsign} from './features/favoriteCallsign.js';
 
-// Map and map tile layer
-var map = L.map("map").setView([51.505, -0.09], 1);
+const favoriteButton = document.getElementById("favBtn");
 
-L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  maxZoom: 19,
-  attribution:
-    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-}).addTo(map);
+favoriteButton.addEventListener("click", favoriteCallsign);
 
-//Get random plane callsign and flight info
-let randomFlight;
-let flightOriginLatLong = [];
-let flightDestinationLatLong = [];
-let flightPolyLine = [];
-let pLine;
-let mapMarkerGroup = L.layerGroup().addTo(map);
+const handleFlightData = async (flightData) => {
+    toggleLoader(true);
 
-const randomize = () => {
-  mapMarkerGroup.clearLayers();
-  loader.removeAttribute("hidden");
-  fetch("https://api.adsbdb.com/v0/callsign/random")
-    .then((response) => response.json())
-    .then((response) => {
-      randomFlight = response;
-      flightOriginLatLong = [
-        randomFlight.response.flightroute.origin.latitude,
-        randomFlight.response.flightroute.origin.longitude,
-      ];
-      flightDestinationLatLong = [
-        randomFlight.response.flightroute.destination.latitude,
-        randomFlight.response.flightroute.destination.longitude,
-      ];
-      flightPolyLine = [flightOriginLatLong, flightDestinationLatLong];
-      console.log(randomFlight);
-      console.log(flightOriginLatLong);
-      console.log(flightDestinationLatLong);
+    console.log(flightData);
 
-      (L.marker(flightOriginLatLong).addTo(mapMarkerGroup),
-        L.marker(flightDestinationLatLong).addTo(mapMarkerGroup),
-        (pLine = L.polyline(flightPolyLine).addTo(mapMarkerGroup)),
-        map.flyToBounds(pLine));
+    const origin = [flightData.response.flightroute.origin.latitude, flightData.response.flightroute.origin.longitude];
+    const destination = [flightData.response.flightroute.destination.latitude, flightData.response.flightroute.destination.longitude]
+    const route = [origin,destination];
 
-      renderFlightInformation(randomFlight);
+    updateMapMarkers(origin, destination);
+    renderFlightInformation(flightData);
+    checkIfFavorite()
 
-        Promise.all([
-            fetchPhotos(randomFlight.response.flightroute.origin.municipality, "origin"),
-            fetchPhotos(randomFlight.response.flightroute.destination.municipality, "destination")
-        ]).then(() => {
-            // Now that images are DONE, hide the loader. I did not know you could create a new promise within a .then...?
-            loader.setAttribute("hidden", "");
-        });
+    await Promise.all([
+        fetchPhotos(origin.municipality, "origin"),
+        fetchPhotos(destination.municipality, "destination")
+    ]).then(() => {
+        toggleLoader(false);
     })
+}
 
-    .catch((error) => error);
-};
+handleFlightData(await getRandomFlight());
 
-const search = () => {
-  loader.removeAttribute("hidden");
-  mapMarkerGroup.clearLayers();
+document.getElementById("randomizeButton").addEventListener("click", async () => {
+    toggleLoader(true)
+    const flightData = await getRandomFlight();
+    await handleFlightData(flightData);
+})
 
-  let searchBarContents = document.getElementById("search").value;
+document.getElementById("searchButton").addEventListener("click", async () => {
+    let searchBarContents = document.getElementById("search").value;
+    toggleLoader(true)
+    const flightData = await getFlightByCallsign(searchBarContents);
+    await handleFlightData(flightData)
+});
 
-  fetch(`https://api.adsbdb.com/v0/callsign/${searchBarContents}`)
-    .then((response) => response.json())
-    .then((response) => {
-      randomFlight = response;
-      flightOriginLatLong = [
-        randomFlight.response.flightroute.origin.latitude,
-        randomFlight.response.flightroute.origin.longitude,
-      ];
-      flightDestinationLatLong = [
-        randomFlight.response.flightroute.destination.latitude,
-        randomFlight.response.flightroute.destination.longitude,
-      ];
-      flightPolyLine = [flightOriginLatLong, flightDestinationLatLong];
-      console.log(randomFlight);
-      console.log(flightOriginLatLong);
-      console.log(flightDestinationLatLong);
+document.getElementById('favoritesSelect').addEventListener("change", async (event) => {
+    let selectedFavorite = event.target.value
+    toggleLoader(true)
+try{
+    const flightData = await getFlightByCallsign(selectedFavorite);
+    console.log(`value changed to: ${selectedFavorite}`)
+    await handleFlightData(flightData);
+} finally {
+    toggleLoader(false)
+}
 
-      (L.marker(flightOriginLatLong).addTo(mapMarkerGroup),
-        L.marker(flightDestinationLatLong).addTo(mapMarkerGroup),
-        (pLine = L.polyline(flightPolyLine).addTo(mapMarkerGroup)),
-        map.flyToBounds(pLine));
+})
 
-      renderFlightInformation(randomFlight);
-      loader.setAttribute("hidden", "");
-    })
-    .catch((error) => error);
-};
-
-const renderFlightInformation = (flightInformation) => {
-  const updateText = (element, text) => {
-    if (element) element.textContent = text || "N/A";
-  };
-
-  let mainDiv = document.getElementById("flightInformation");
-
-  // Header
-  let headerObject = {
-    callsign: document.getElementById("callsign"),
-    airline: document.getElementById("airline"),
-    countryOrigin: document.getElementById("countryOfOrigin"),
-  };
-  let flightRouteData = flightInformation.response.flightroute;
-
-  //oriigin card
-  let originCardObject = {
-    originCard: document.getElementById("originCard"),
-    originCountryIso: document.getElementById("originCountryIso"),
-    originCountry: document.getElementById("originCountry"),
-    originMunicipality: document.getElementById("originMunicipality"),
-    originAirport: document.getElementById("originAirport"),
-    originAirportElevation: document.getElementById("originAirportElevation"),
-    originAirportLat: document.getElementById("originAirportLat"),
-    originAirportLon: document.getElementById("originAirportLon"),
-  };
-  let originData = flightInformation.response.flightroute.origin;
-
-  //destination card
-  let destinationCardObject = {
-    destinationCard: document.getElementById("destinationCard"),
-    destinationCountryIso: document.getElementById("destinationCountryIso"),
-    destinationCountry: document.getElementById("destinationCountry"),
-    destinationMunicipality: document.getElementById("destinationMunicipality"),
-    destinationAirport: document.getElementById("destinationAirport"),
-    destinationAirportElevation: document.getElementById(
-      "destinationAirportElevation",
-    ),
-    destinationAirportLat: document.getElementById("destinationAirportLat"),
-    destinationAirportLon: document.getElementById("destinationAirportLon"),
-  };
-  let destData = flightInformation.response.flightroute.destination;
-
-  //header setters
-  updateText(headerObject.callsign, flightRouteData.callsign);
-  updateText(headerObject.airline, flightRouteData.airline.name);
-  updateText(headerObject.countryOrigin, flightRouteData.airline.country);
-
-  //origin setters
-  updateText(originCardObject.originCountryIso, originData.country_iso_name);
-  updateText(originCardObject.originCountry, originData.country_name);
-  updateText(originCardObject.originMunicipality, originData.municipality);
-  updateText(originCardObject.originAirport, originData.name);
-  updateText(originCardObject.originAirportElevation, originData.elevation);
-  updateText(originCardObject.originAirportLat, originData.latitude);
-  updateText(originCardObject.originAirportLon, originData.longitude);
-
-  //destination setters
-  updateText(
-    destinationCardObject.destinationCountryIso,
-    destData.country_iso_name,
-  );
-  updateText(destinationCardObject.destinationCountry, destData.country_name);
-  updateText(
-    destinationCardObject.destinationMunicipality,
-    destData.municipality,
-  );
-  updateText(destinationCardObject.destinationAirport, destData.name);
-  updateText(
-    destinationCardObject.destinationAirportElevation,
-    destData.elevation,
-  );
-  updateText(destinationCardObject.destinationAirportLat, destData.latitude);
-  updateText(destinationCardObject.destinationAirportLon, destData.longitude);
-};
-
-document.getElementById("randomizeButton").addEventListener("click", randomize);
-document.getElementById("searchButton").addEventListener("click", search);
-
-randomize();

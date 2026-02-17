@@ -3,30 +3,43 @@
   <head>
     <meta charset="UTF-8" />
     <title>SkyWatch</title>
-    <script defer type="module" src="src/index.js"></script>
-    <link rel="stylesheet" href="css/global.css" />
-    <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css" />
-    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
-    <script src="node_modules/leaflet/dist/leaflet.js"></script>
+    <script defer type="module" src="./src/index.js"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+    </style>
+    <link rel="stylesheet" href="./css/global.css" />
+    <link rel="stylesheet" href="./node_modules/leaflet/dist/leaflet.css" />
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico" />
+    <script src="./node_modules/leaflet/dist/leaflet.js"></script>
   </head>
   <body>
     <div id="loader" hidden>
       <div class="loader"></div>
       <p>Loading Flight Data...</p>
     </div>
-    <img alt='SkyWatch Logo' src="./images/logo.png" id="logo" />
-    <div id="searchDiv">
-      <input type="text" name="search" id="search" placeholder="Search Callsign" />
-      <button id="searchButton">
-        Search
-      </button>
+    <div id="logoSearch">
+      <img alt='SkyWatch Logo' src="./images/logo.png" id="logo" />
+      <div id="searchDiv">
+        <label for="favoritesSelect">Favorites: </label>
+        <select name="favoritesSelect" id="favoritesSelect"></select>
+        <label for="search">Search: </label>
+        <input type="text" name="search" id="search" placeholder="Search Callsign" />
+        <button id="searchButton">
+          Search
+        </button>
+      </div>
     </div>
     <div id="map"></div>
     <div id="flightInformation">
       <div id="headerContainer">
         <div id="headerAirline">
           <div id="header">
-            <h2>Flight Information for Callsign <span id="callsign"></span></h2>
+            <h2>Flight Information for Callsign <span id="callsign"></span>
+              <button id="favBtn">
+                <span class="heartIcon">♡</span>
+              </button>
+            </h2>
+
             <button id="randomizeButton">
               Randomize!
             </button>
