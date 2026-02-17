@@ -48,7 +48,7 @@ const randomize = () => {
             fetchPhotos(randomFlight.response.flightroute.origin.municipality, "origin"),
             fetchPhotos(randomFlight.response.flightroute.destination.municipality, "destination")
         ]).then(() => {
-            // Now that images are DONE, hide the loader
+            // Now that images are DONE, hide the loader. I did not know you could create a new promise within a .then...?
             loader.setAttribute("hidden", "");
         });
     })
