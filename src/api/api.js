@@ -11,8 +11,11 @@ export const getRandomFlight = async () => {
 };
 
 export const fetchPhotos = async (searchParameter, typeOfSearch) => {
-    let card = document.getElementById(typeOfSearch === "origin" ? 'originCard' : 'destinationCard');
-
+    let card = document.getElementById(
+        typeOfSearch === "origin" ? "originCard" :
+            typeOfSearch === "destination" ? "destinationCard" :
+                "airlineInformation" // Default or fallback ID
+    );
     const response = await fetch(`https://api.pexels.com/v1/search?query=${searchParameter}`, {
         headers: {
             Authorization: 'Y8ESpTBDSSubxdsRobqXXYWyLezQGXS5VKmot8xkC63RNF6JbGyFLL8d'

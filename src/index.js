@@ -15,15 +15,16 @@ const handleFlightData = async (flightData) => {
 
     const origin = [flightData.response.flightroute.origin.latitude, flightData.response.flightroute.origin.longitude];
     const destination = [flightData.response.flightroute.destination.latitude, flightData.response.flightroute.destination.longitude]
-    const route = [origin,destination];
+    // const route = [origin,destination];
 
     updateMapMarkers(origin, destination);
     renderFlightInformation(flightData);
     checkIfFavorite()
 
     await Promise.all([
-        fetchPhotos(origin.municipality, "origin"),
-        fetchPhotos(destination.municipality, "destination")
+        fetchPhotos(flightData.response.flightroute.origin.municipality, "origin"),
+        fetchPhotos(flightData.response.flightroute.destination.municipality, "destination"),
+        fetchPhotos(flightData.response.flightroute.airline.name, "airline")
     ]).then(() => {
         toggleLoader(false);
     })
