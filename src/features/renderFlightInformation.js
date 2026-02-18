@@ -16,7 +16,7 @@ export const renderFlightInformation = (flightInformation) => {
     };
     let flightRouteData = flightInformation.response.flightroute;
 
-    //oriigin card
+    //Origin card
     let originCardObject = {
         originCard: document.getElementById("originCard"),
         originCountryIso: document.getElementById("originCountryIso"),

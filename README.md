@@ -7,6 +7,7 @@ SkyWatch is a flight tracking and information dashboard. It allows users to visu
 - Integrated with Leaflet.js to display flight routes and airport locations.
 - Fetches flight route details using the ADSBDB API.
 - Automatically retrieves high-quality background images for origin and destination cities via the Pexels API.
+- CountryFlagAPI provides flags for airline country of origin, flight origin, and flight destinations.
 - Discover random active flights globally with a single click.
 
 ## 🚀 Getting Started
@@ -20,16 +21,14 @@ SkyWatch is a flight tracking and information dashboard. It allows users to visu
 
 1. **Clone the repository:**
 
-   ```bash
+   ```
    git clone git@github.com:drluciano/sdi-project-one.git
    cd sdi-project-one
    ```
 
 2. **Install dependencies:**
 
-   ```bash
-   npm install
-   ```
+   ```npm install```
 
 3. **Setup API Keys:**
 
@@ -43,7 +42,12 @@ SkyWatch is a flight tracking and information dashboard. It allows users to visu
 
 4. **Run the project:**
 
-   Open `index.html` via a local server. I recommend using live-server. Install via:
-    ```bash
-    npm install live-server
-   ```
+   Open `index.html` via a local server. I recommend using live-server. 
+
+   Install via:
+    ```npm install live-server```
+
+   Run via:
+   ```live-server .```,
+
+   or set a new script in package.json such as ``` npm start```
