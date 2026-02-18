@@ -9,10 +9,30 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
 
 let mapMarkerGroup = L.layerGroup().addTo(map);
 
-export const updateMapMarkers = (origin, destination) => {
+let originIcon = L.icon({
+    iconUrl: "./images/plane-takeoff.svg",
+    iconSize: [24, 24],
+    iconAnchor: [10, 10]
+})
+
+let destIcon = L.icon({
+    iconUrl: "./images/plane-landing.svg",
+    iconSize: [24, 24],
+    iconAnchor: [10, 10]
+})
+
+export const updateMapMarkers = (origin, destination, flightData) => {
     mapMarkerGroup.clearLayers();
     const pLine = L.polyline([origin, destination]).addTo(mapMarkerGroup);
-    L.marker(origin).addTo(mapMarkerGroup);
-    L.marker(destination).addTo(mapMarkerGroup);
+    const originMarker = L.marker(origin, {icon: originIcon}).addTo(mapMarkerGroup);
+    originMarker.bindPopup(`<h2>Origin Information:</h2>
+    ${flightData.response.flightroute.origin.municipality}, ${flightData.response.flightroute.origin.country_name}<br>
+    ${flightData.response.flightroute.origin.name}
+    `)
+    const destMarker = L.marker(destination, {icon: destIcon}).addTo(mapMarkerGroup);
+    destMarker.bindPopup(`<h2>Destination Information:</h2>
+    ${flightData.response.flightroute.destination.municipality}, ${flightData.response.flightroute.destination.country_name}<br>
+    ${flightData.response.flightroute.destination.name}
+    `)
     map.flyToBounds(pLine);
 }

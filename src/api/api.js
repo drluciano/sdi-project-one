@@ -14,7 +14,7 @@ export const fetchPhotos = async (searchParameter, typeOfSearch) => {
     let card = document.getElementById(
         typeOfSearch === "origin" ? "originCard" :
             typeOfSearch === "destination" ? "destinationCard" :
-                "airlineInformation" // Default or fallback ID
+                "airlineInformation"
     );
     const response = await fetch(`https://api.pexels.com/v1/search?query=${searchParameter}`, {
         headers: {

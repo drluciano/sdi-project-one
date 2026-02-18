@@ -8,8 +8,6 @@ export const renderFlightInformation = (flightInformation) => {
         if (element) element.textContent = text || "N/A";
     };
 
-    let mainDiv = document.getElementById("flightInformation");
-
     // Header
     let headerObject = {
         callsign: document.getElementById("callsign"),
@@ -50,6 +48,35 @@ export const renderFlightInformation = (flightInformation) => {
     updateText(headerObject.callsign, flightRouteData.callsign);
     updateText(headerObject.airline, flightRouteData.airline.name);
     updateText(headerObject.countryOrigin, flightRouteData.airline.country);
+
+    //Get country flag for airline
+    const airlineCountryOfOriginFlag = document.getElementById("airlineCountryOfOriginFlag")
+    airlineCountryOfOriginFlag.innerHTML = "";
+    const airlineCountry = flightInformation.response.flightroute.airline.country_iso
+    const airlineCountryFlag = document.createElement("img")
+    airlineCountryFlag.classList = "countryFlag"
+    airlineCountryFlag.src = `https://countryflagsapi.netlify.app/flag/${airlineCountry}.svg`
+    airlineCountryOfOriginFlag.appendChild(airlineCountryFlag)
+
+
+    //get country flag for origin
+    const originFlagHeader = document.getElementById("countryOfOriginFlag")
+    originFlagHeader.innerHTML = ""
+    const originCountry = flightInformation.response.flightroute.origin.country_iso_name
+    const originCountryFlag = document.createElement("img")
+    originCountryFlag.classList = "countryFlag"
+    originCountryFlag.src = `https://countryflagsapi.netlify.app/flag/${originCountry}.svg`
+    originFlagHeader.appendChild(originCountryFlag)
+
+    //get country flag for destination
+    const destFlagHeader = document.getElementById("countryOfDestinationFlag")
+    destFlagHeader.innerHTML = ""
+    const destCountry = flightInformation.response.flightroute.destination.country_iso_name
+    const destCountryFlag = document.createElement("img")
+    destCountryFlag.classList = "countryFlag"
+    destCountryFlag.src = `https://countryflagsapi.netlify.app/flag/${destCountry}.svg`
+    destFlagHeader.appendChild(destCountryFlag)
+
 
     //origin setters
     updateText(originCardObject.originCountryIso, originData.country_iso_name);

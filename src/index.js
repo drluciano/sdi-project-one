@@ -17,7 +17,7 @@ const handleFlightData = async (flightData) => {
     const destination = [flightData.response.flightroute.destination.latitude, flightData.response.flightroute.destination.longitude]
     // const route = [origin,destination];
 
-    updateMapMarkers(origin, destination);
+    updateMapMarkers(origin, destination, flightData);
     renderFlightInformation(flightData);
     checkIfFavorite()
 
