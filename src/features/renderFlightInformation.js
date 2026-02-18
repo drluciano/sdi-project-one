@@ -1,46 +1,46 @@
 export const toggleLoader = (show) => {
-    const loader = document.getElementById("loader");
-    show ? loader.removeAttribute("hidden") : loader.setAttribute("hidden", "");
+    const loader = document.getElementById('loader');
+    show ? loader.removeAttribute('hidden') : loader.setAttribute('hidden', '');
 };
 
 export const renderFlightInformation = (flightInformation) => {
     const updateText = (element, text) => {
-        if (element) element.textContent = text || "N/A";
+        if (element) element.textContent = text || 'N/A';
     };
 
     // Header
     let headerObject = {
-        callsign: document.getElementById("callsign"),
-        airline: document.getElementById("airline"),
-        countryOrigin: document.getElementById("countryOfOrigin"),
+        callsign: document.getElementById('callsign'),
+        airline: document.getElementById('airline'),
+        countryOrigin: document.getElementById('countryOfOrigin'),
     };
     let flightRouteData = flightInformation.response.flightroute;
 
     //Origin card
     let originCardObject = {
-        originCard: document.getElementById("originCard"),
-        originCountryIso: document.getElementById("originCountryIso"),
-        originCountry: document.getElementById("originCountry"),
-        originMunicipality: document.getElementById("originMunicipality"),
-        originAirport: document.getElementById("originAirport"),
-        originAirportElevation: document.getElementById("originAirportElevation"),
-        originAirportLat: document.getElementById("originAirportLat"),
-        originAirportLon: document.getElementById("originAirportLon"),
+        originCard: document.getElementById('originCard'),
+        originCountryIso: document.getElementById('originCountryIso'),
+        originCountry: document.getElementById('originCountry'),
+        originMunicipality: document.getElementById('originMunicipality'),
+        originAirport: document.getElementById('originAirport'),
+        originAirportElevation: document.getElementById('originAirportElevation'),
+        originAirportLat: document.getElementById('originAirportLat'),
+        originAirportLon: document.getElementById('originAirportLon'),
     };
     let originData = flightInformation.response.flightroute.origin;
 
     //destination card
     let destinationCardObject = {
-        destinationCard: document.getElementById("destinationCard"),
-        destinationCountryIso: document.getElementById("destinationCountryIso"),
-        destinationCountry: document.getElementById("destinationCountry"),
-        destinationMunicipality: document.getElementById("destinationMunicipality"),
-        destinationAirport: document.getElementById("destinationAirport"),
+        destinationCard: document.getElementById('destinationCard'),
+        destinationCountryIso: document.getElementById('destinationCountryIso'),
+        destinationCountry: document.getElementById('destinationCountry'),
+        destinationMunicipality: document.getElementById('destinationMunicipality'),
+        destinationAirport: document.getElementById('destinationAirport'),
         destinationAirportElevation: document.getElementById(
-            "destinationAirportElevation",
+            'destinationAirportElevation',
         ),
-        destinationAirportLat: document.getElementById("destinationAirportLat"),
-        destinationAirportLon: document.getElementById("destinationAirportLon"),
+        destinationAirportLat: document.getElementById('destinationAirportLat'),
+        destinationAirportLon: document.getElementById('destinationAirportLon'),
     };
     let destData = flightInformation.response.flightroute.destination;
 
@@ -50,32 +50,32 @@ export const renderFlightInformation = (flightInformation) => {
     updateText(headerObject.countryOrigin, flightRouteData.airline.country);
 
     //Get country flag for airline
-    const airlineCountryOfOriginFlag = document.getElementById("airlineCountryOfOriginFlag")
-    airlineCountryOfOriginFlag.innerHTML = "";
-    const airlineCountry = flightInformation.response.flightroute.airline.country_iso
-    const airlineCountryFlag = document.createElement("img")
-    airlineCountryFlag.classList = "countryFlag"
-    airlineCountryFlag.src = `https://countryflagsapi.netlify.app/flag/${airlineCountry}.svg`
-    airlineCountryOfOriginFlag.appendChild(airlineCountryFlag)
+    const airlineCountryOfOriginFlag = document.getElementById('airlineCountryOfOriginFlag');
+    airlineCountryOfOriginFlag.innerHTML = '';
+    const airlineCountry = flightInformation.response.flightroute.airline.country_iso;
+    const airlineCountryFlag = document.createElement('img');
+    airlineCountryFlag.classList = 'countryFlag';
+    airlineCountryFlag.src = `https://countryflagsapi.netlify.app/flag/${airlineCountry}.svg`;
+    airlineCountryOfOriginFlag.appendChild(airlineCountryFlag);
 
 
     //get country flag for origin
-    const originFlagHeader = document.getElementById("countryOfOriginFlag")
-    originFlagHeader.innerHTML = ""
-    const originCountry = flightInformation.response.flightroute.origin.country_iso_name
-    const originCountryFlag = document.createElement("img")
-    originCountryFlag.classList = "countryFlag"
-    originCountryFlag.src = `https://countryflagsapi.netlify.app/flag/${originCountry}.svg`
-    originFlagHeader.appendChild(originCountryFlag)
+    const originFlagHeader = document.getElementById('countryOfOriginFlag');
+    originFlagHeader.innerHTML = '';
+    const originCountry = flightInformation.response.flightroute.origin.country_iso_name;
+    const originCountryFlag = document.createElement('img');
+    originCountryFlag.classList = 'countryFlag';
+    originCountryFlag.src = `https://countryflagsapi.netlify.app/flag/${originCountry}.svg`;
+    originFlagHeader.appendChild(originCountryFlag);
 
     //get country flag for destination
-    const destFlagHeader = document.getElementById("countryOfDestinationFlag")
-    destFlagHeader.innerHTML = ""
-    const destCountry = flightInformation.response.flightroute.destination.country_iso_name
-    const destCountryFlag = document.createElement("img")
-    destCountryFlag.classList = "countryFlag"
-    destCountryFlag.src = `https://countryflagsapi.netlify.app/flag/${destCountry}.svg`
-    destFlagHeader.appendChild(destCountryFlag)
+    const destFlagHeader = document.getElementById('countryOfDestinationFlag');
+    destFlagHeader.innerHTML = '';
+    const destCountry = flightInformation.response.flightroute.destination.country_iso_name;
+    const destCountryFlag = document.createElement('img');
+    destCountryFlag.classList = 'countryFlag';
+    destCountryFlag.src = `https://countryflagsapi.netlify.app/flag/${destCountry}.svg`;
+    destFlagHeader.appendChild(destCountryFlag);
 
 
     //origin setters
